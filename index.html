@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Oasis</title>
+  </head>
+  <body>
+    <!-- Top bar: app name, district picker, location button -->
+    <header id="topbar">
+      <h1>🌴 Oasis</h1>
+      <select id="district"></select>
+      <button id="locate">📍 Use my location</button>
+    </header>
+
+    <!-- Friendly messages (loading, "we're adding your area") -->
+    <div id="message" hidden></div>
+
+    <!-- The map fills the screen -->
+    <div id="map"></div>
+
+    <!-- Bottom panel: heat meter + time slider -->
+    <section id="panel">
+      <div id="heat">Loading weather…</div>
+      <label id="timeBox">
+        ⏰ <span id="timeLabel"></span>
+        <input type="range" id="time" min="5" max="19" step="0.25" value="14" />
+      </label>
+    </section>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
