@@ -30,7 +30,7 @@ const MAP_STYLES = {
 let theme = pref.get('theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 function applyTheme() {
   document.documentElement.dataset.theme = theme;
-  $('theme').textContent = theme === 'dark' ? '☀️' : '🌙';
+  $('theme').textContent = theme === 'dark' ? 'Light mode' : 'Dark mode';
 }
 applyTheme();
 
@@ -50,20 +50,20 @@ const map = new maplibregl.Map({
 });
 
 // Put an emoji pin on the map for every donor, camp and volunteer.
-function addPins(list, emoji) {
+function addPins(list, letter, kind) {
   for (const p of list) {
     const el = document.createElement('div');
-    el.className = 'pin';
-    el.textContent = emoji;
+    el.className = `pin ${kind}`;
+    el.textContent = letter;
     new maplibregl.Marker({ element: el })
       .setLngLat(p.pos)
       .setPopup(new maplibregl.Popup({ offset: 14 }).setText(`${p.name} (${p.area})`))
       .addTo(map);
   }
 }
-addPins(donors, '🍽️');
-addPins(camps, '🏗️');
-addPins(volunteers, '🙋');
+addPins(donors, 'D', 'donor');
+addPins(camps, 'C', 'camp');
+addPins(volunteers, 'V', 'volunteer');
 
 // A dashed line from the donor to the camp for the donation you click.
 // It's re-added every time the map style changes (light ↔ dark).
@@ -100,11 +100,11 @@ function statusText(d) {
   const camp = campName(d.camp);
   const how = { camp: t('howCamp'), volunteer: t('howVol'), paid: t('howPaid', { n: d.fee }) }[d.mode];
   switch (d.status) {
-    case 'available': return isFresh(d) ? `🟢 ${t('sAvailable')}` : `⌛ ${t('sOld')}`;
-    case 'requested': return `📨 ${t('sRequested', { camp, how })}${d.mode === 'volunteer' ? ' · ' + t('waiting') : ''}`;
-    case 'assigned': return `🙋 ${t('sAssigned', { vol: byId(volunteers, d.volunteer)?.name ?? '', camp })}`;
-    case 'picked': return `🚚 ${t('sPicked', { camp })}`;
-    case 'delivered': return `✅ ${t('sDelivered', { camp })}`;
+    case 'available': return isFresh(d) ? `${t('sAvailable')}` : `${t('sOld')}`;
+    case 'requested': return `${t('sRequested', { camp, how })}${d.mode === 'volunteer' ? ' · ' + t('waiting') : ''}`;
+    case 'assigned': return `${t('sAssigned', { vol: byId(volunteers, d.volunteer)?.name ?? '', camp })}`;
+    case 'picked': return `${t('sPicked', { camp })}`;
+    case 'delivered': return `${t('sDelivered', { camp })}`;
   }
   return '';
 }
@@ -128,10 +128,10 @@ function card(d, extra = '', actions = '') {
 function donorView() {
   const mine = getDonations().filter((d) => d.donor === who);
   const actions = (d) => {
-    if (d.status === 'available') return btn('remove', d.id, `🗑️ ${t('remove')}`);
+    if (d.status === 'available') return btn('remove', d.id, `${t('remove')}`);
     if (d.mode !== 'paid') return '';
-    if (d.status === 'requested') return btn('picked', d.id, `🚚 ${t('outForDelivery')}`);
-    if (d.status === 'picked') return btn('delivered', d.id, `✅ ${t('markDelivered')}`);
+    if (d.status === 'requested') return btn('picked', d.id, `${t('outForDelivery')}`);
+    if (d.status === 'picked') return btn('delivered', d.id, `${t('markDelivered')}`);
     return '';
   };
   return `<h2>${t('share')}</h2>
@@ -151,7 +151,7 @@ function donorView() {
           <option value="2">${t('h2')}</option><option value="3">${t('h3')}</option>
         </select></label>
       </div>
-      <button class="primary">📤 ${t('post')}</button>
+      <button class="primary">${t('post')}</button>
     </form>
     <h2>${t('yourDonations')}</h2>
     ${mine.map((d) => card(d, '', actions(d))).join('') || empty(t('nothingPosted'))}`;
@@ -169,16 +169,16 @@ function campView() {
   const hidden = open.length - good.length;
   const mine = all.filter((d) => d.camp === who);
   const rules = [
-    `👷 ${t('workers', { n: camp.workers })}`,
-    ...camp.cantAccept.map((i) => `❌ ${t('noX', { x: t(i) })}`),
-    camp.halalOnly ? `✅ ${t('halalOnly')}` : '',
-    `⭐ ${t('prefers', { x: camp.prefers.join(', ') })}`,
+    `${t('workers', { n: camp.workers })}`,
+    ...camp.cantAccept.map((i) => `${t('noX', { x: t(i) })}`),
+    camp.halalOnly ? `${t('halalOnly')}` : '',
+    `${t('prefers', { x: camp.prefers.join(', ') })}`,
   ].filter(Boolean);
   const actions = (d) => {
     // A camp can cancel until someone is on the way.
     if (d.status === 'requested')
-      return (d.mode === 'camp' ? btn('picked', d.id, `🚐 ${t('pickedUp')}`) : '') + btn('cancel', d.id, `✖️ ${t('cancel')}`);
-    if (d.mode === 'camp' && d.status === 'picked') return btn('delivered', d.id, `✅ ${t('arrived')}`);
+      return (d.mode === 'camp' ? btn('picked', d.id, `${t('pickedUp')}`) : '') + btn('cancel', d.id, `${t('cancel')}`);
+    if (d.mode === 'camp' && d.status === 'picked') return btn('delivered', d.id, `${t('arrived')}`);
     return '';
   };
 
@@ -190,13 +190,13 @@ function campView() {
           const k = dist(d, camp);
           return card(
             d,
-            `<small>📍 ${t('kmAway', { n: k.toFixed(1) })} ${isGoodMatch(d, camp) ? `<span class="match">⭐ ${t('goodMatch')}</span>` : ''}</small>`,
-            btn('camp', d.id, `🚐 ${t('ourPickup')}`) + btn('volunteer', d.id, `🙋 ${t('askVol')}`) + btn('paid', d.id, `💳 ${t('payFee', { n: deliveryFee(k) })}`)
+            `<small>${t('kmAway', { n: k.toFixed(1) })} ${isGoodMatch(d, camp) ? `<span class="match">${t('goodMatch')}</span>` : ''}</small>`,
+            btn('camp', d.id, `${t('ourPickup')}`) + btn('volunteer', d.id, `${t('askVol')}`) + btn('paid', d.id, `${t('payFee', { n: deliveryFee(k) })}`)
           );
         })
         .join('') || empty(t('noFood'))
     }
-    ${hidden ? `<p class="note">🔒 ${t('hidden', { n: hidden, h: SAFE_HOURS, km: MAX_KM })}</p>` : ''}
+    ${hidden ? `<p class="note">${t('hidden', { n: hidden, h: SAFE_HOURS, km: MAX_KM })}</p>` : ''}
     <h2>${t('yourRequests')}</h2>
     ${mine.map((d) => card(d, '', actions(d))).join('') || empty(t('noRequests'))}`;
 }
@@ -210,15 +210,15 @@ function volunteerView() {
     .sort((a, b) => dist(a, me) - dist(b, me));
   const mine = all.filter((d) => d.volunteer === who);
   const actions = (d) =>
-    d.status === 'assigned' ? btn('picked', d.id, `📦 ${t('pickedUp')}`) : d.status === 'picked' ? btn('delivered', d.id, `✅ ${t('delivered')}`) : '';
+    d.status === 'assigned' ? btn('picked', d.id, `${t('pickedUp')}`) : d.status === 'picked' ? btn('delivered', d.id, `${t('delivered')}`) : '';
   return `<h2>${t('jobs')}</h2>
     ${
       jobs
         .map((d) => {
           const trip = km(byId(donors, d.donor).pos, byId(camps, d.camp).pos);
-          return card(d, `<small>📍 ${t('jobInfo', { a: dist(d, me).toFixed(1), b: trip.toFixed(1) })}</small>`, btn('accept', d.id, `🙋 ${t('illDeliver')}`));
+          return card(d, `<small>${t('jobInfo', { a: dist(d, me).toFixed(1), b: trip.toFixed(1) })}</small>`, btn('accept', d.id, `${t('illDeliver')}`));
         })
-        .join('') || empty(`${t('noJobs')} 💚`)
+        .join('') || empty(`${t('noJobs')}`)
     }
     <h2>${t('yourDeliveries')}</h2>
     ${mine.map((d) => card(d, '', actions(d))).join('') || empty(t('none'))}`;
@@ -234,13 +234,13 @@ function render() {
   const focusIndex = oldForm ? [...oldForm.elements].indexOf(document.activeElement) : -1;
 
   $('tagline').textContent = t('tagline');
-  $('reset').textContent = `↺ ${t('reset')}`;
+  $('reset').textContent = `${t('reset')}`;
   document.querySelectorAll('#tabs button').forEach((b) => {
-    b.textContent = { donor: '🍽️ ', camp: '🏗️ ', volunteer: '🙋 ' }[b.dataset.role] + t(b.dataset.role);
+    b.textContent = t(b.dataset.role);
     b.classList.toggle('active', b.dataset.role === role);
   });
   const im = impact(getDonations());
-  $('impact').innerHTML = `<span>🍛 ${t('meals', { n: `<b>${im.meals}</b>` })}</span><span>♻️ ${t('kg', { n: `<b>${im.kg}</b>` })}</span><span>🌍 ${t('co2', { n: `<b>${im.co2}</b>` })}</span>`;
+  $('impact').innerHTML = `<span>${t('meals', { n: `<b>${im.meals}</b>` })}</span><span>${t('kg', { n: `<b>${im.kg}</b>` })}</span><span>${t('co2', { n: `<b>${im.co2}</b>` })}</span>`;
 
   const picker = `<label class="who">${t('youAre')}
     <select id="who">${people[role].map((p) => `<option value="${p.id}" ${p.id === who ? 'selected' : ''}>${esc(p.name)}: ${p.area}</option>`).join('')}</select></label>`;
