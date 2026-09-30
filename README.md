@@ -1,60 +1,64 @@
-# 🍛 Akshaya Patr
+# Akshaya Patr
 
-**Leftover food → hungry workers, before it goes to waste.**
+**A platform that redirects surplus food from restaurants, bakeries and events to labour camps across the UAE.**
 
-In the Mahabharata, the *Akshaya Patra* was a magic vessel that never ran out of food.
-Akshaya Patr makes sure good food in the UAE never runs out for the people who need it, and never ends up in a landfill.
+In the Mahabharata, the *Akshaya Patra* was a vessel that never ran out of food. Akshaya Patr applies that idea to a modern problem: ensuring that good food reaches people who need it instead of ending up in a landfill.
 
-> Built for the **"Fix It for the Future"** hackathon 🌍
+Developed for the **"Fix It for the Future"** hackathon.
 
 ---
 
-## 🌍 The problem
-- Restaurants, bakeries, weddings and events in the UAE throw away huge amounts of good food every day.
-- Food rotting in landfill releases **methane**, a greenhouse gas much stronger than CO₂.
-- Meanwhile, many workers in labour camps could really use a good meal.
-- The hardest part isn't the food. It's **matching** it to the right people and **getting it there** in time.
+## Problem Statement
+- Restaurants, bakeries, weddings and corporate events in the UAE discard large quantities of edible food every day.
+- Food waste in landfills produces **methane**, a greenhouse gas significantly more potent than carbon dioxide.
+- At the same time, many workers living in labour accommodation would benefit from additional meals.
+- The main barrier is not the availability of food, but **matching** it to suitable recipients and **transporting** it safely and on time.
 
-## 💡 Our solution
-One app that connects three groups:
+## Solution
+Akshaya Patr connects three groups on a single platform:
 
-| Who | What they do |
+| Participant | Role |
 |---|---|
-| 🍽️ **Donors**: restaurants, bakeries, events | Post leftover food: what it is, how much, when it was cooked |
-| 🏗️ **Labour camps** | See food that suits them and request it |
-| 🙋 **Volunteers** | Pick up the food and deliver it |
+| **Donors**: restaurants, bakeries, event organisers | List surplus food, including quantity, cuisine, ingredients and preparation time |
+| **Labour camps** | View suitable donations and submit requests |
+| **Volunteers** | Collect and deliver food to camps |
 
-### 🚚 Three ways to get the food there
-1. **Camp pickup**: a volunteer from the camp collects it with the camp's car
-2. **Outside volunteer**: someone from the community delivers it
-3. **Paid delivery**: the camp pays the delivery charge and the restaurant delivers
+### Delivery Options
+When requesting a donation, a camp selects one of three delivery methods:
+1. **Camp collection**: a representative from the camp collects the food using the camp's vehicle.
+2. **Community volunteer**: a registered volunteer collects and delivers the food.
+3. **Paid delivery**: the camp covers the delivery charge and the donor delivers the food.
 
-### 🥗 Food that suits everyone
-Each camp sets what it **can't accept** (e.g. no beef, no pork, halal only) and what it **prefers** (e.g. Indian, Pakistani, Filipino).
-Camps only see food that works for them. The camp decides, and no one is labelled.
+### Dietary Suitability
+Each camp specifies the ingredients it cannot accept (for example beef, pork, or non-halal food) and its preferred cuisines. Camps are shown only donations that meet their requirements, and preferred cuisines are highlighted. Requirements are set at camp level, and no individual is categorised.
 
-### 🛡️ Food safety
-Donors enter **when the food was cooked**. Food that's too old is hidden automatically.
+### Food Safety
+Donors record when the food was prepared. Donations older than four hours are automatically hidden from camps.
 
-### 📊 Impact counter
-Meals shared · kg of food rescued · CO₂ avoided
+### Impact Tracking
+The platform reports meals delivered, kilograms of food saved, and estimated CO₂ emissions avoided.
 
 ---
 
-## 🛠️ How we built it
-- **Vite + JavaScript**: the app, running in the browser
-- **MapLibre + OpenStreetMap**: free, open maps showing donors, camps and volunteers
-- Built with help from **Claude** (AI) as a coding assistant. We learned how every part works.
+## Technology
+- **Vite and JavaScript**: browser-based application
+- **MapLibre GL and OpenStreetMap**: open-source mapping of donors, camps and volunteers
+- **Browser storage with cross-window synchronisation**: live updates between open windows for demonstration purposes
 
-## ▶️ Run it yourself
+Development was assisted by **Claude (Anthropic)** as a coding assistant. The team reviewed and understands each component of the application.
+
+## Demo Data
+All business names in the demo are fictional. Locations correspond to real areas in Abu Dhabi and Dubai. Payments are simulated, and no real transactions take place.
+
+## Running Locally
 ```bash
 npm install
 npm run dev
 ```
-Then open http://localhost:5173
+Open http://localhost:5173 in a browser.
 
-## 👥 Team
-- *(add your names here)*
+## Team
+- *(team member names)*
 
-## 📄 License
-MIT: free for anyone to use, so more people can fight food waste.
+## License
+Released under the MIT License.

@@ -1,5 +1,5 @@
 {
-  "name": "oasis",
+  "name": "akshaya-patr",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -9,8 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "maplibre-gl": "^6.11.2",
-    "suncalc": "^2.0.2"
+    "maplibre-gl": "^6.11.2"
   },
   "devDependencies": {
     "vite": "^8.3.1"
