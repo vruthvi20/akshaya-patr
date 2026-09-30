@@ -6,8 +6,7 @@ export const districts = [
   { id: 'yas', name: 'Abu Dhabi – Yas Island', center: [54.6078, 24.4886] },
   { id: 'marina', name: 'Dubai – Dubai Marina', center: [55.1403, 25.0805] },
   { id: 'downtown', name: 'Dubai – Downtown', center: [55.2744, 25.1972] },
-  // TODO: put the school's real centre point here when we know the area
-  { id: 'school', name: 'Our School Area (coming soon)', center: null },
+  { id: 'school', name: 'Abu Dhabi – Our School Area', center: [54.5413, 24.3437] }, // plus code 8GVR+FG
 ];
 
 // Each district is a square about 900 m from its centre in every direction.

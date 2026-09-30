@@ -1,7 +1,7 @@
 import * as maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './style.css';
-import { districts, boxOf, findDistrict } from './districts.js';
+import { districts, findDistrict } from './districts.js';
 import { loadBuildings } from './buildings.js';
 import { sunAt, makeShadows } from './shade.js';
 import { getWeather, wetBulb, riskLevel } from './heat.js';
@@ -25,6 +25,9 @@ const map = new maplibregl.Map({
   zoom: 15,
   pitch: 50, // tilt so buildings look 3D
 });
+
+// Remember when the map is ready, so we never draw on it too early.
+const mapReady = new Promise((resolve) => map.on('load', resolve));
 
 // 2. Fill the district dropdown.
 for (const d of districts) select.add(new Option(d.name, d.id));
@@ -54,16 +57,23 @@ map.on('load', () => {
     },
   });
 
-  // Click a building to see its number + height (helps us hand-fix heights).
+  // Click a building to see its name, number + height, with a Google Maps link
+  // so we can look up its real floor count and hand-fix the height.
   map.on('click', 'buildings', (e) => {
     const p = e.features[0].properties;
+    const { lng, lat } = e.lngLat;
     new maplibregl.Popup()
       .setLngLat(e.lngLat)
-      .setHTML(`Building #${p.id}<br>Height: ${Math.round(p.height)} m ${p.fixed ? '✅' : '(estimated)'}`)
+      .setHTML(
+        `<strong>${p.name || 'Unnamed building'}</strong><br>` +
+        `Number: ${p.id}<br>Height: ${Math.round(p.height)} m ${p.fixed ? '✅' : '(estimated)'}<br>` +
+        `<a href="https://www.google.com/maps/search/?api=1&query=${lat},${lng}" target="_blank">🔎 See it on Google Maps</a>`
+      )
       .addTo(map);
   });
 
-  openDistrict(districts[0]);
+  // Open whichever district is picked (the first one unless you already chose).
+  openDistrict(districts.find((d) => d.id === select.value) || districts[0]);
 });
 
 // 4. Open a district: fly there, load its buildings and weather.
@@ -74,10 +84,12 @@ async function openDistrict(d) {
   map.flyTo({ center: d.center, zoom: 15 });
   showMessage('Loading buildings… ⏳');
   try {
-    [buildings, weather] = await Promise.all([loadBuildings(boxOf(d)), getWeather(...d.center)]);
+    [buildings, weather] = await Promise.all([loadBuildings(d), getWeather(...d.center)]);
+    await mapReady;
     map.getSource('buildings').setData(buildings);
     hideMessage();
-  } catch {
+  } catch (err) {
+    console.error(err);
     showMessage('Could not load the map data. Check your internet and try again.');
   }
   update();
