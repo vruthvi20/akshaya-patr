@@ -6,24 +6,28 @@
     <title>Akshaya Patr</title>
   </head>
   <body>
-    <!-- Top: name, tagline, live impact counter -->
+    <!-- Top: name, tagline, live impact counter, language, theme, reset -->
     <header>
       <div>
         <h1>🍛 Akshaya Patr</h1>
-        <p class="tag">Leftover food → hungry workers, before it goes to waste</p>
+        <p class="tag" id="tagline"></p>
       </div>
       <div id="impact"></div>
-      <button id="reset" title="Reset demo data">↺ Reset demo</button>
+      <div class="controls">
+        <select id="lang" aria-label="Language"></select>
+        <button id="theme" aria-label="Switch light/dark theme"></button>
+        <button id="reset"></button>
+      </div>
     </header>
 
     <!-- Three roles -->
     <nav id="tabs">
-      <button data-role="donor">🍽️ Donor</button>
-      <button data-role="camp">🏗️ Labour camp</button>
-      <button data-role="volunteer">🙋 Volunteer</button>
+      <button data-role="donor"></button>
+      <button data-role="camp"></button>
+      <button data-role="volunteer"></button>
     </nav>
 
-    <!-- Left: the role's screen. Right: the map. -->
+    <!-- The role's screen + the map -->
     <main>
       <section id="panel"></section>
       <div id="map"></div>

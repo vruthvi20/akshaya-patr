@@ -3,20 +3,21 @@ import { seedDonations } from './data.js';
 // All donations are saved in the browser. When one window changes them,
 // the browser tells every other open window, so they update instantly (live sync!).
 const KEY = 'akshaya-patr-demo';
+const FRESH_DEMO_HOURS = 6; // demo data older than this is replaced, so the demo never looks stale
 const listeners = [];
 let donations = load();
 
 function load() {
   try {
-    return JSON.parse(localStorage.getItem(KEY)) || seedDonations();
-  } catch {
-    return seedDonations();
-  }
+    const saved = JSON.parse(localStorage.getItem(KEY));
+    if (saved?.donations && Date.now() - saved.savedAt < FRESH_DEMO_HOURS * 3600e3) return saved.donations;
+  } catch {}
+  return seedDonations();
 }
 
 function save() {
   try {
-    localStorage.setItem(KEY, JSON.stringify(donations));
+    localStorage.setItem(KEY, JSON.stringify({ savedAt: Date.now(), donations }));
   } catch {}
   listeners.forEach((f) => f());
 }
@@ -38,7 +39,13 @@ export function addDonation(d) {
 }
 
 export function update(id, changes) {
-  Object.assign(donations.find((d) => d.id === id), changes);
+  const d = donations.find((x) => x.id === id);
+  if (d) Object.assign(d, changes);
+  save();
+}
+
+export function removeDonation(id) {
+  donations = donations.filter((d) => d.id !== id);
   save();
 }
 

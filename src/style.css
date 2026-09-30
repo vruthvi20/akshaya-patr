@@ -7,6 +7,19 @@
   --brand-soft: #fff1e6;
   --green: #15803d;
   --line: #eadfce;
+  color-scheme: light;
+}
+/* Dark theme: same names, darker colours */
+:root[data-theme="dark"] {
+  --bg: #16110c;
+  --card: #221a13;
+  --text: #f3e9dc;
+  --muted: #b5a48e;
+  --brand: #f97316;
+  --brand-soft: #3b2615;
+  --green: #4ade80;
+  --line: #3a2e22;
+  color-scheme: dark;
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; }
@@ -15,10 +28,12 @@ body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--t
 header { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; padding: 10px 16px; background: var(--card); border-bottom: 1px solid var(--line); }
 h1 { margin: 0; font-size: 1.4rem; color: var(--brand); }
 .tag { margin: 0; font-size: .85rem; color: var(--muted); }
-#impact { display: flex; gap: 8px; flex-wrap: wrap; margin-left: auto; }
+#impact { display: flex; gap: 8px; flex-wrap: wrap; margin-inline-start: auto; }
+.controls { display: flex; gap: 6px; }
+.controls select { padding: 6px; border-radius: 8px; border: 1px solid var(--line); }
 #impact span { background: var(--brand-soft); padding: 4px 10px; border-radius: 999px; font-size: .85rem; }
 
-button, select, input { font: inherit; }
+button, select, input { font: inherit; color: var(--text); background: var(--card); }
 button { cursor: pointer; border: 1px solid var(--line); background: var(--card); border-radius: 8px; padding: 6px 10px; }
 button:hover { border-color: var(--brand); }
 button.primary { background: var(--brand); color: #fff; border: none; padding: 10px; font-weight: 600; }
@@ -49,7 +64,7 @@ legend { font-size: .85rem; color: var(--muted); }
 .portions { font-size: .85rem; background: var(--brand-soft); padding: 2px 8px; border-radius: 999px; }
 .status { font-size: .9rem; }
 .actions { display: flex; gap: 6px; flex-wrap: wrap; }
-.match { color: var(--green); font-weight: 600; margin-left: 6px; }
+.match { color: var(--green); font-weight: 600; margin-inline-start: 6px; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 0; }
 .chips span { background: var(--card); border: 1px solid var(--line); padding: 3px 8px; border-radius: 999px; font-size: .8rem; }
 .note { font-size: .85rem; color: var(--muted); background: var(--card); border: 1px dashed var(--line); padding: 8px; border-radius: 8px; }
@@ -62,5 +77,8 @@ legend { font-size: .85rem; color: var(--muted); }
   main { grid-template-columns: 1fr; grid-template-rows: 35vh 1fr; }
   #map { grid-row: 1; }
   #panel { grid-row: 2; }
-  #impact { margin-left: 0; }
+  #impact { margin-inline-start: 0; }
 }
+
+/* Map popups always have a white background, so keep their text dark */
+.maplibregl-popup-content { color: #2b2118; }
