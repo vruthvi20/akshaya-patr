@@ -30,7 +30,7 @@ const MAP_STYLES = {
 let theme = pref.get('theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 function applyTheme() {
   document.documentElement.dataset.theme = theme;
-  $('theme').textContent = theme === 'dark' ? 'Light mode' : 'Dark mode';
+  $('theme').textContent = theme === 'dark' ? t('lightMode') : t('darkMode');
 }
 applyTheme();
 
@@ -42,6 +42,8 @@ if (!people[role]) role = 'donor';
 if (!byId(people[role], who)) who = people[role][0].id;
 
 // ---------- MAP ----------
+// Tell the map where its background worker file is (copied there by scripts/copy-map-worker.mjs).
+maplibregl.setWorkerUrl('/maplibre/maplibre-gl-worker.mjs');
 const map = new maplibregl.Map({
   container: 'map',
   style: MAP_STYLES[theme],
@@ -326,6 +328,7 @@ document.addEventListener('submit', (e) => {
 $('lang').onchange = (e) => {
   setLang(e.target.value);
   pref.set('lang', getLang());
+  applyTheme(); // re-label the theme button in the new language
   render();
 };
 
@@ -339,5 +342,6 @@ $('theme').onclick = () => {
 $('reset').onclick = () => confirm(t('resetConfirm')) && resetDemo();
 
 onChange(render); // redraw whenever data changes (here or in another window)
-setInterval(render, 60000); // refresh "cooked X min ago" and food-safety every minute
+// Refresh "cooked X min ago" and food safety every minute (but not while a dropdown is open).
+setInterval(() => document.activeElement?.tagName !== 'SELECT' && render(), 60000);
 render();
