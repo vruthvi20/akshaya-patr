@@ -47,8 +47,9 @@ maplibregl.setWorkerUrl('/maplibre/maplibre-gl-worker.mjs');
 const map = new maplibregl.Map({
   container: 'map',
   style: MAP_STYLES[theme],
-  center: [54.9, 24.75], // between Abu Dhabi and Dubai
-  zoom: 7.5,
+  // Start zoomed so every donor, camp and volunteer fits on screen (works on phones too).
+  bounds: [...donors, ...camps, ...volunteers].reduce((b, p) => b.extend(p.pos), new maplibregl.LngLatBounds(donors[0].pos, donors[0].pos)),
+  fitBoundsOptions: { padding: 30 },
 });
 
 // Put an emoji pin on the map for every donor, camp and volunteer.
@@ -242,7 +243,7 @@ function render() {
     b.classList.toggle('active', b.dataset.role === role);
   });
   const im = impact(getDonations());
-  $('impact').innerHTML = `<span>${t('meals', { n: `<b>${im.meals}</b>` })}</span><span>${t('kg', { n: `<b>${im.kg}</b>` })}</span><span>${t('co2', { n: `<b>${im.co2}</b>` })}</span>`;
+  $('impact').innerHTML = `<span>${t('meals', { n: `<b>${im.meals}</b>` })}</span><span>${t('kg', { n: `<b>${im.kg}</b>` })}</span><span>${t('co2', { n: `<b>${im.co2}</b>` })}</span><span>${t('water', { n: `<b>${im.water.toLocaleString('en')}</b>` })}</span>`;
 
   const picker = `<label class="who">${t('youAre')}
     <select id="who">${people[role].map((p) => `<option value="${p.id}" ${p.id === who ? 'selected' : ''}>${esc(p.name)}: ${p.area}</option>`).join('')}</select></label>`;

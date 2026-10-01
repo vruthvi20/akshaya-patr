@@ -47,7 +47,7 @@ header {
 h1 { margin: 0; font-size: 26px; }
 .tag { margin: 2px 0 0; font-size: 14px; font-style: italic; }
 #impact { margin-inline-start: auto; font-size: 14px; }
-#impact span { margin: 0 6px; }
+#impact span { margin: 0 6px; white-space: nowrap; }
 #impact span + span { border-inline-start: 1px solid white; padding-inline-start: 12px; }
 .controls { display: flex; gap: 6px; }
 .controls select, .controls button { background: white; color: black; border: none; }

@@ -4,7 +4,7 @@
 
 const STRINGS = {
   en: {
-    name: 'English', darkMode: 'Dark mode', lightMode: 'Light mode',
+    name: 'English', water: '{n} litres of water saved', darkMode: 'Dark mode', lightMode: 'Light mode',
     tagline: 'Leftover food → hungry workers, before it goes to waste',
     reset: 'Reset demo', resetConfirm: 'Reset all demo data?',
     donor: 'Donor', camp: 'Labour camp', volunteer: 'Volunteer', youAre: 'You are:',
@@ -34,7 +34,7 @@ const STRINGS = {
     beef: 'beef', pork: 'pork', chicken: 'chicken', mutton: 'mutton', fish: 'fish', egg: 'egg',
   },
   ar: {
-    name: 'العربية', darkMode: 'الوضع الداكن', lightMode: 'الوضع الفاتح',
+    name: 'العربية', water: '{n} لتر من الماء تم توفيرها', darkMode: 'الوضع الداكن', lightMode: 'الوضع الفاتح',
     tagline: 'الطعام الفائض ← للعمال المحتاجين، قبل أن يُهدر',
     reset: 'إعادة ضبط العرض', resetConfirm: 'هل تريد إعادة ضبط جميع بيانات العرض؟',
     donor: 'متبرع', camp: 'سكن العمال', volunteer: 'متطوع', youAre: 'أنت:',
@@ -64,7 +64,7 @@ const STRINGS = {
     beef: 'لحم بقر', pork: 'لحم خنزير', chicken: 'دجاج', mutton: 'لحم ضأن', fish: 'سمك', egg: 'بيض',
   },
   hi: {
-    name: 'हिन्दी', darkMode: 'डार्क मोड', lightMode: 'लाइट मोड',
+    name: 'हिन्दी', water: '{n} लीटर पानी बचाया', darkMode: 'डार्क मोड', lightMode: 'लाइट मोड',
     tagline: 'बचा हुआ खाना → ज़रूरतमंद मज़दूरों तक, बर्बाद होने से पहले',
     reset: 'डेमो रीसेट करें', resetConfirm: 'क्या सारा डेमो डेटा रीसेट करें?',
     donor: 'दाता', camp: 'लेबर कैंप', volunteer: 'स्वयंसेवक', youAre: 'आप हैं:',
@@ -94,7 +94,7 @@ const STRINGS = {
     beef: 'बीफ़', pork: 'पोर्क', chicken: 'चिकन', mutton: 'मटन', fish: 'मछली', egg: 'अंडा',
   },
   ur: {
-    name: 'اردو', darkMode: 'ڈارک موڈ', lightMode: 'لائٹ موڈ',
+    name: 'اردو', water: '{n} لیٹر پانی بچایا', darkMode: 'ڈارک موڈ', lightMode: 'لائٹ موڈ',
     tagline: 'بچا ہوا کھانا ← ضرورت مند مزدوروں تک، ضائع ہونے سے پہلے',
     reset: 'ڈیمو ری سیٹ کریں', resetConfirm: 'کیا تمام ڈیمو ڈیٹا ری سیٹ کریں؟',
     donor: 'عطیہ دہندہ', camp: 'لیبر کیمپ', volunteer: 'رضاکار', youAre: 'آپ ہیں:',
@@ -124,7 +124,7 @@ const STRINGS = {
     beef: 'گائے کا گوشت', pork: 'سور کا گوشت', chicken: 'مرغی', mutton: 'بکرے کا گوشت', fish: 'مچھلی', egg: 'انڈا',
   },
   ml: {
-    name: 'മലയാളം', darkMode: 'ഡാർക്ക് മോഡ്', lightMode: 'ലൈറ്റ് മോഡ്',
+    name: 'മലയാളം', water: '{n} ലിറ്റർ വെള്ളം സംരക്ഷിച്ചു', darkMode: 'ഡാർക്ക് മോഡ്', lightMode: 'ലൈറ്റ് മോഡ്',
     tagline: 'ബാക്കി വന്ന ഭക്ഷണം → ആവശ്യമുള്ള തൊഴിലാളികൾക്ക്, പാഴാകുന്നതിന് മുമ്പ്',
     reset: 'ഡെമോ റീസെറ്റ്', resetConfirm: 'എല്ലാ ഡെമോ ഡാറ്റയും റീസെറ്റ് ചെയ്യണോ?',
     donor: 'ദാതാവ്', camp: 'ലേബർ ക്യാമ്പ്', volunteer: 'സന്നദ്ധപ്രവർത്തകൻ', youAre: 'നിങ്ങൾ:',
@@ -154,7 +154,7 @@ const STRINGS = {
     beef: 'ബീഫ്', pork: 'പോർക്ക്', chicken: 'ചിക്കൻ', mutton: 'മട്ടൺ', fish: 'മീൻ', egg: 'മുട്ട',
   },
   ta: {
-    name: 'தமிழ்', darkMode: 'இருண்ட பயன்முறை', lightMode: 'ஒளி பயன்முறை',
+    name: 'தமிழ்', water: '{n} லிட்டர் தண்ணீர் சேமிக்கப்பட்டது', darkMode: 'இருண்ட பயன்முறை', lightMode: 'ஒளி பயன்முறை',
     tagline: 'மீதமுள்ள உணவு → தேவைப்படும் தொழிலாளர்களுக்கு, வீணாகும் முன்',
     reset: 'டெமோவை மீட்டமை', resetConfirm: 'அனைத்து டெமோ தரவையும் மீட்டமைக்கவா?',
     donor: 'நன்கொடையாளர்', camp: 'தொழிலாளர் முகாம்', volunteer: 'தன்னார்வலர்', youAre: 'நீங்கள்:',
@@ -184,7 +184,7 @@ const STRINGS = {
     beef: 'மாட்டிறைச்சி', pork: 'பன்றி இறைச்சி', chicken: 'கோழி', mutton: 'ஆட்டிறைச்சி', fish: 'மீன்', egg: 'முட்டை',
   },
   te: {
-    name: 'తెలుగు', darkMode: 'డార్క్ మోడ్', lightMode: 'లైట్ మోడ్',
+    name: 'తెలుగు', water: '{n} లీటర్ల నీరు ఆదా', darkMode: 'డార్క్ మోడ్', lightMode: 'లైట్ మోడ్',
     tagline: 'మిగిలిన ఆహారం → అవసరమైన కార్మికులకు, వృథా కాకముందే',
     reset: 'డెమో రీసెట్', resetConfirm: 'మొత్తం డెమో డేటాను రీసెట్ చేయాలా?',
     donor: 'దాత', camp: 'లేబర్ క్యాంప్', volunteer: 'స్వచ్ఛంద సేవకుడు', youAre: 'మీరు:',
@@ -214,7 +214,7 @@ const STRINGS = {
     beef: 'గొడ్డు మాంసం', pork: 'పంది మాంసం', chicken: 'చికెన్', mutton: 'మటన్', fish: 'చేప', egg: 'గుడ్డు',
   },
   bn: {
-    name: 'বাংলা', darkMode: 'ডার্ক মোড', lightMode: 'লাইট মোড',
+    name: 'বাংলা', water: '{n} লিটার পানি বাঁচানো হয়েছে', darkMode: 'ডার্ক মোড', lightMode: 'লাইট মোড',
     tagline: 'বেঁচে যাওয়া খাবার → প্রয়োজনে থাকা শ্রমিকদের কাছে, নষ্ট হওয়ার আগে',
     reset: 'ডেমো রিসেট', resetConfirm: 'সব ডেমো ডেটা রিসেট করবেন?',
     donor: 'দাতা', camp: 'শ্রমিক ক্যাম্প', volunteer: 'স্বেচ্ছাসেবক', youAre: 'আপনি:',
@@ -244,7 +244,7 @@ const STRINGS = {
     beef: 'গরুর মাংস', pork: 'শূকরের মাংস', chicken: 'মুরগি', mutton: 'খাসির মাংস', fish: 'মাছ', egg: 'ডিম',
   },
   ne: {
-    name: 'नेपाली', darkMode: 'डार्क मोड', lightMode: 'लाइट मोड',
+    name: 'नेपाली', water: '{n} लिटर पानी बचाइयो', darkMode: 'डार्क मोड', lightMode: 'लाइट मोड',
     tagline: 'बचेको खाना → खाँचो भएका कामदारहरूलाई, खेर जानुअघि',
     reset: 'डेमो रिसेट', resetConfirm: 'सबै डेमो डाटा रिसेट गर्ने?',
     donor: 'दाता', camp: 'श्रमिक क्याम्प', volunteer: 'स्वयंसेवक', youAre: 'तपाईं:',
@@ -274,7 +274,7 @@ const STRINGS = {
     beef: 'गाईको मासु', pork: 'सुँगुरको मासु', chicken: 'कुखुरा', mutton: 'खसीको मासु', fish: 'माछा', egg: 'अण्डा',
   },
   tl: {
-    name: 'Filipino', darkMode: 'Dark mode', lightMode: 'Light mode',
+    name: 'Filipino', water: '{n} litro ng tubig ang natipid', darkMode: 'Dark mode', lightMode: 'Light mode',
     tagline: 'Sobrang pagkain → para sa mga manggagawang nangangailangan, bago masayang',
     reset: 'I-reset ang demo', resetConfirm: 'I-reset ang lahat ng demo data?',
     donor: 'Donor', camp: 'Labour camp', volunteer: 'Boluntaryo', youAre: 'Ikaw ay:',

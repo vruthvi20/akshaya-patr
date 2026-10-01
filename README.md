@@ -36,7 +36,7 @@ Each camp specifies the ingredients it cannot accept (for example beef, pork, or
 Donors record when the food was prepared. Donations older than four hours are automatically hidden from camps.
 
 ### Impact Tracking
-The platform reports meals delivered, kilograms of food saved, and estimated CO₂ emissions avoided.
+The platform reports meals delivered, kilograms of food saved, estimated CO₂ emissions avoided, and the estimated water saved. Growing food uses large amounts of water, so every wasted meal also wastes that water, a serious issue in a country that depends on desalination.
 
 ---
 
