@@ -50,7 +50,8 @@ The platform reports meals delivered, kilograms of food saved, estimated CO₂ e
 - **MapLibre GL and OpenStreetMap**: open-source mapping of donors, camps and volunteers
 - **Browser storage with cross-window synchronisation**: live updates between open windows for demonstration purposes
 
-Development was assisted by **Claude (Anthropic)** as a coding assistant. The team reviewed and understands each component of the application.
+This project was built using an AI-assisted workflow. Used Claude to help generate some of the code, but I was the lead developer—handling the design, fixing the bugs, and putting the whole app together.
+
 
 ## Project Structure
 ```
