@@ -63,7 +63,7 @@ The platform reports meals delivered, kilograms of food saved, estimated CO₂ e
 - **Vercel**: hosting, with automatic updates from GitHub
 - **Browser storage with cross-window synchronisation**: live updates between open windows for demonstration purposes
 
-This project was built using an AI-assisted workflow. Used Claude to help generate some of the code, but I was the lead developer—handling the design, fixing the bugs, and putting the whole app together.
+This project was built using an AI-assisted workflow. I used Claude as a coding assistant to help write the code. I came up with the idea, made the design and feature decisions, tested the app, found problems and directed the fixes, and studied the code so I can explain how each part works.
 
 
 ## Project Structure
