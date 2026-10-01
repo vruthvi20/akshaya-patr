@@ -1,4 +1,4 @@
-import { donors, camps, volunteers, seedDonations } from './data.js';
+import { donors, camps, volunteers, seedDonations } from './demo-data.js';
 
 // All donations (and anyone who joined) are saved in the browser. When one window changes them,
 // the browser tells every other open window, so they update instantly (live sync!).

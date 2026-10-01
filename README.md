@@ -52,6 +52,22 @@ The platform reports meals delivered, kilograms of food saved, estimated CO₂ e
 
 Development was assisted by **Claude (Anthropic)** as a coding assistant. The team reviewed and understands each component of the application.
 
+## Project Structure
+```
+src/
+  main.js            starts the app and connects everything
+  state.js           who is using this window
+  data/              demo data, saving and live sync
+  logic/rules.js     food safety, matching, distance, impact
+  i18n/              translations (10 languages)
+  map/map.js         the map
+  views/             donor, camp, volunteer and join screens
+  styles/style.css   colours, layout, dark mode
+scripts/             build helper for the map
+docs/                how the code works
+```
+A full explanation is in [docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md).
+
 ## Demo Data
 All business names in the demo are fictional. Locations correspond to real areas in Abu Dhabi and Dubai. Payments are simulated, and no real transactions take place.
 
