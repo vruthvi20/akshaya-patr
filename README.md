@@ -23,6 +23,9 @@ Akshaya Patr connects three groups on a single platform:
 | **Labour camps** | View suitable donations and submit requests |
 | **Volunteers** | Collect and deliver food to camps |
 
+### Joining the Platform
+Donors, labour camps and volunteers can join through a simple sign-up form and choose their location on the map. Camps record their dietary requirements when they join. In this demonstration no password is required; a production version would add secure login and verify every member before activation.
+
 ### Delivery Options
 When requesting a donation, a camp selects one of three delivery methods:
 1. **Camp collection**: a representative from the camp collects the food using the camp's vehicle.

@@ -46,7 +46,7 @@ header {
 }
 h1 { margin: 0; font-size: 26px; }
 .tag { margin: 2px 0 0; font-size: 14px; font-style: italic; }
-#impact { margin-inline-start: auto; font-size: 14px; }
+#impact { margin-inline-start: auto; font-size: 14px; display: flex; flex-wrap: wrap; row-gap: 4px; }
 #impact span { margin: 0 6px; white-space: nowrap; }
 #impact span + span { border-inline-start: 1px solid white; padding-inline-start: 12px; }
 .controls { display: flex; gap: 6px; }
@@ -128,3 +128,10 @@ button.primary:hover { opacity: 0.9; }
   #panel { grid-row: 2; border: none; }
   #impact { margin-inline-start: 0; }
 }
+
+/* Join form: only show the fields for the role you picked */
+#join > label { display: grid; gap: 4px; font-weight: bold; }
+#join:not([data-r="donor"]) .only-donor,
+#join:not([data-r="camp"]) .only-camp { display: none; }
+.only-camp { display: grid; gap: 8px; }
+.controls button.active { background: #ffd54f; font-weight: bold; }

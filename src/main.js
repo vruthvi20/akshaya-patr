@@ -2,7 +2,7 @@ import * as maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './style.css';
 import { donors, camps, volunteers, CUISINES, INGREDIENTS } from './data.js';
-import { getDonations, onChange, addDonation, update, removeDonation, resetDemo } from './store.js';
+import { getDonations, onChange, addDonation, update, removeDonation, addMember, resetDemo } from './store.js';
 import { isFresh, hoursOld, suits, isGoodMatch, km, deliveryFee, impact, SAFE_HOURS, MAX_KM } from './logic.js';
 import { t, setLang, getLang, LANGS } from './i18n.js';
 
@@ -52,21 +52,36 @@ const map = new maplibregl.Map({
   fitBoundsOptions: { padding: 30 },
 });
 
-// Put an emoji pin on the map for every donor, camp and volunteer.
-function addPins(list, letter, kind) {
-  for (const p of list) {
-    const el = document.createElement('div');
-    el.className = `pin ${kind}`;
-    el.textContent = letter;
-    new maplibregl.Marker({ element: el })
-      .setLngLat(p.pos)
-      .setPopup(new maplibregl.Popup({ offset: 14 }).setText(`${p.name} (${p.area})`))
-      .addTo(map);
+// Put a lettered dot on the map for every donor, camp and volunteer.
+// drawPins() clears and redraws them, so people who just joined show up too.
+let pins = [];
+function drawPins() {
+  pins.forEach((m) => m.remove());
+  pins = [];
+  for (const [list, letter, kind] of [[donors, 'D', 'donor'], [camps, 'C', 'camp'], [volunteers, 'V', 'volunteer']]) {
+    for (const p of list) {
+      const el = document.createElement('div');
+      el.className = `pin ${kind}`;
+      el.textContent = letter;
+      const popup = new maplibregl.Popup({ offset: 14 }).setText(`${p.name} (${p.area})`);
+      pins.push(new maplibregl.Marker({ element: el }).setLngLat(p.pos).setPopup(popup).addTo(map));
+    }
   }
 }
-addPins(donors, 'D', 'donor');
-addPins(camps, 'C', 'camp');
-addPins(volunteers, 'V', 'volunteer');
+drawPins();
+
+// While joining, clicking the map chooses your exact location (shown as a red pin).
+let joinPos = null;
+const joinPin = new maplibregl.Marker({ color: '#d32f2f' });
+function setJoinPos(pos) {
+  joinPos = pos;
+  joinPin.setLngLat(pos).addTo(map);
+  const label = $('joinLoc');
+  if (label) label.textContent = `${t('locationSet')} ✓`;
+}
+map.on('click', (e) => {
+  if (role === 'join') setJoinPos([+e.lngLat.lng.toFixed(4), +e.lngLat.lat.toFixed(4)]);
+});
 
 // A dashed line from the donor to the camp for the donation you click.
 // It's re-added every time the map style changes (light ↔ dark).
@@ -91,7 +106,7 @@ function showTrip(d) {
 const dist = (d, place) => km(byId(donors, d.donor).pos, place.pos);
 const btn = (action, id, text) => `<button data-action="${action}" data-id="${id}">${text}</button>`;
 const empty = (text) => `<p class="empty">${text}</p>`;
-const campName = (id) => byId(camps, id)?.name ?? '';
+const campName = (id) => esc(byId(camps, id)?.name ?? '');
 
 function ago(d) {
   const h = hoursOld(d);
@@ -105,7 +120,7 @@ function statusText(d) {
   switch (d.status) {
     case 'available': return isFresh(d) ? `${t('sAvailable')}` : `${t('sOld')}`;
     case 'requested': return `${t('sRequested', { camp, how })}${d.mode === 'volunteer' ? ' · ' + t('waiting') : ''}`;
-    case 'assigned': return `${t('sAssigned', { vol: byId(volunteers, d.volunteer)?.name ?? '', camp })}`;
+    case 'assigned': return `${t('sAssigned', { vol: esc(byId(volunteers, d.volunteer)?.name ?? ''), camp })}`;
     case 'picked': return `${t('sPicked', { camp })}`;
     case 'delivered': return `${t('sDelivered', { camp })}`;
   }
@@ -227,17 +242,82 @@ function volunteerView() {
     ${mine.map((d) => card(d, '', actions(d))).join('') || empty(t('none'))}`;
 }
 
+// ---------- SCREEN 4: JOIN (sign up as donor, camp or volunteer) ----------
+const DONOR_TYPES = ['Restaurant', 'Bakery', 'Hotel', 'Events', 'Café', 'Canteen', 'Food court'];
+// Every area name we already know, with its map position, for the "Area" dropdown.
+const AREAS = [...new Map([...donors, ...camps].map((p) => [p.area, p.pos]))]
+  .map(([name, pos]) => ({ name, pos }))
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+function joinView() {
+  return `<h2>${t('joinTitle')}</h2>
+    <form id="join" data-r="donor">
+      <div class="row">${['donor', 'camp', 'volunteer']
+        .map((r, i) => `<label><input type="radio" name="role" value="${r}" ${i === 0 ? 'checked' : ''} /> ${t(r)}</label>`)
+        .join('')}</div>
+      <label>${t('yourName')} <input name="name" maxlength="60" /></label>
+      <label class="only-donor">${t('type')} <select name="type">${DONOR_TYPES.map((x) => `<option>${x}</option>`).join('')}</select></label>
+      <label>${t('area')} <select name="area"><option value="">--</option>${AREAS.map((a) => `<option>${esc(a.name)}</option>`).join('')}</select></label>
+      <p class="note">${t('mapHint')} <b id="joinLoc">${joinPos ? t('locationSet') + ' ✓' : ''}</b></p>
+      <div class="only-camp">
+        <label>${t('numWorkers')} <input name="workers" type="number" min="1" max="20000" value="100" /></label>
+        <fieldset><legend>${t('cantAccept')}</legend>
+          ${INGREDIENTS.map((i) => `<label><input type="checkbox" name="cant" value="${i}" /> ${t(i)}</label>`).join('')}
+        </fieldset>
+        <label><input type="checkbox" name="halalOnly" /> ${t('halalOnly')}</label>
+        <fieldset><legend>${t('prefers2')}</legend>
+          ${CUISINES.map((c) => `<label><input type="checkbox" name="prefers" value="${c}" /> ${c}</label>`).join('')}
+        </fieldset>
+      </div>
+      <button class="primary">${t('submitJoin')}</button>
+      <p class="note">${t('joinNote')}</p>
+    </form>`;
+}
+
+function submitJoin(form) {
+  const f = new FormData(form);
+  const r = f.get('role');
+  const name = f.get('name').trim();
+  if (!name) return alert(t('needName'));
+  if (!f.get('area') || !joinPos) return alert(t('needLocation'));
+  const member = { role: r, id: r[0] + Date.now(), name, area: f.get('area'), pos: joinPos };
+  if (r === 'donor') member.type = f.get('type');
+  if (r === 'camp') {
+    const prefers = f.getAll('prefers');
+    if (!prefers.length) return alert(t('needPrefer'));
+    Object.assign(member, {
+      workers: Math.max(1, Math.round(Number(f.get('workers')) || 1)),
+      cantAccept: f.getAll('cant'),
+      halalOnly: f.has('halalOnly'),
+      prefers,
+    });
+  }
+  // Switch straight to the new member's own screen.
+  form.reset();
+  role = r;
+  who = member.id;
+  addMember(member); // saves it, which redraws everything
+}
+
 // ---------- DRAW THE SCREEN ----------
 function render() {
-  history.replaceState(null, '', `#${role}/${who}`);
+  if (role !== 'join') {
+    history.replaceState(null, '', `#${role}/${who}`);
+    joinPos = null;
+    joinPin.remove();
+  }
 
-  // Keep whatever the donor was typing, so live updates from other windows don't wipe it.
-  const oldForm = $('post');
-  const typed = oldForm && [...oldForm.elements].map((el) => (el.type === 'checkbox' ? el.checked : el.value));
+  // Keep whatever was being typed, so live updates from other windows don't wipe it.
+  const oldForm = $('panel').querySelector('form');
+  const oldFormId = oldForm?.id;
+  const isTick = (el) => el.type === 'checkbox' || el.type === 'radio';
+  const typed = oldForm && [...oldForm.elements].map((el) => (isTick(el) ? el.checked : el.value));
   const focusIndex = oldForm ? [...oldForm.elements].indexOf(document.activeElement) : -1;
 
   $('tagline').textContent = t('tagline');
   $('reset').textContent = `${t('reset')}`;
+  $('joinBtn').textContent = t('join');
+  $('joinBtn').classList.toggle('active', role === 'join');
   document.querySelectorAll('#tabs button').forEach((b) => {
     b.textContent = t(b.dataset.role);
     b.classList.toggle('active', b.dataset.role === role);
@@ -245,14 +325,15 @@ function render() {
   const im = impact(getDonations());
   $('impact').innerHTML = `<span>${t('meals', { n: `<b>${im.meals}</b>` })}</span><span>${t('kg', { n: `<b>${im.kg}</b>` })}</span><span>${t('co2', { n: `<b>${im.co2}</b>` })}</span><span>${t('water', { n: `<b>${im.water.toLocaleString('en')}</b>` })}</span>`;
 
-  const picker = `<label class="who">${t('youAre')}
+  const picker = () => `<label class="who">${t('youAre')}
     <select id="who">${people[role].map((p) => `<option value="${p.id}" ${p.id === who ? 'selected' : ''}>${esc(p.name)}: ${p.area}</option>`).join('')}</select></label>`;
-  $('panel').innerHTML = picker + { donor: donorView, camp: campView, volunteer: volunteerView }[role]();
+  $('panel').innerHTML = role === 'join' ? joinView() : picker() + { donor: donorView, camp: campView, volunteer: volunteerView }[role]();
 
-  const newForm = $('post');
-  if (typed && newForm) {
-    [...newForm.elements].forEach((el, i) => (el.type === 'checkbox' ? (el.checked = typed[i]) : (el.value = typed[i])));
+  const newForm = $('panel').querySelector('form');
+  if (typed && newForm && newForm.id === oldFormId) {
+    [...newForm.elements].forEach((el, i) => (isTick(el) ? (el.checked = typed[i]) : (el.value = typed[i])));
     if (focusIndex >= 0) newForm.elements[focusIndex]?.focus();
+    if (newForm.id === 'join') newForm.dataset.r = newForm.elements.role.value;
   }
 }
 
@@ -303,11 +384,22 @@ document.addEventListener('change', (e) => {
     who = e.target.value;
     render();
   }
+  // Join form: show the right fields for donor / camp / volunteer.
+  if (e.target.name === 'role') e.target.form.dataset.r = e.target.value;
+  // Join form: picking an area moves the red pin there and zooms in.
+  if (e.target.name === 'area' && e.target.form?.id === 'join') {
+    const a = AREAS.find((x) => x.name === e.target.value);
+    if (a) {
+      setJoinPos(a.pos);
+      map.flyTo({ center: a.pos, zoom: 13 });
+    }
+  }
 });
 
-// Donor posts new food.
 document.addEventListener('submit', (e) => {
   e.preventDefault();
+  if (e.target.id === 'join') return submitJoin(e.target);
+  // Otherwise: donor posts new food.
   const f = new FormData(e.target);
   const food = f.get('food').trim();
   const portions = Math.round(Number(f.get('portions')));
@@ -342,7 +434,18 @@ $('theme').onclick = () => {
 
 $('reset').onclick = () => confirm(t('resetConfirm')) && resetDemo();
 
-onChange(render); // redraw whenever data changes (here or in another window)
+$('joinBtn').onclick = () => {
+  role = 'join';
+  render();
+};
+
+// Redraw whenever data changes (here or in another window).
+onChange(() => {
+  drawPins();
+  // If the person on screen no longer exists (e.g. after "Reset demo"), show the first one.
+  if (role !== 'join' && !byId(people[role], who)) who = people[role][0].id;
+  render();
+});
 // Refresh "cooked X min ago" and food safety every minute (but not while a dropdown is open).
 setInterval(() => document.activeElement?.tagName !== 'SELECT' && render(), 60000);
 render();
