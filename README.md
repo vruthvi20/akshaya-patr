@@ -95,7 +95,13 @@ Open http://localhost:5173 in a browser. Requires [Node.js](https://nodejs.org) 
 To build the version that goes online: `npm run build`
 
 ## Team
-- *(team member names)*
+**Built by:**
+- Himani Varma
+- Ruthvika Vankadhara
+
+**Team members:**
+- Rahil Afsal
+- Riyansh Varma
 
 ## License
 Released under the MIT License.
