@@ -95,11 +95,10 @@ Open http://localhost:5173 in a browser. Requires [Node.js](https://nodejs.org) 
 To build the version that goes online: `npm run build`
 
 ## Team
-**Built by:**
-- Himani Varma
-- Ruthvika Vankadhara
+**Team leader:** Ruthvika Vankadhara
 
 **Team members:**
+- Himani Varma
 - Rahil Afsal
 - Riyansh Varma
 
