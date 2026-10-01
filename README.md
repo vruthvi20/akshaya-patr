@@ -8,6 +8,13 @@ Developed for the **"Fix It for the Future"** hackathon in Bright Riders School.
 
 **Live demo:** https://akshaya-patr.vercel.app
 
+**Open a screen directly:**
+- [Donor screen (Spice Route Restaurant)](https://akshaya-patr.vercel.app/#donor/d1)
+- [Labour camp screen (Mussafah Workers Village)](https://akshaya-patr.vercel.app/#camp/c1)
+- [Volunteer screen (Ahmed K.)](https://akshaya-patr.vercel.app/#volunteer/v1)
+
+Tip: open the donor and camp links in two windows side by side. Food posted by the donor appears on the camp's screen straight away.
+
 ---
 
 ## Problem Statement
@@ -43,11 +50,17 @@ Donors record when the food was prepared. Donations older than four hours are au
 ### Impact Tracking
 The platform reports meals delivered, kilograms of food saved, estimated CO₂ emissions avoided, and the estimated water saved. Growing food uses large amounts of water, so every wasted meal also wastes that water, a serious issue in a country that depends on desalination.
 
+### Languages and Accessibility
+- Available in 10 languages spoken widely in the UAE: English, Arabic, Hindi, Urdu, Malayalam, Tamil, Telugu, Bengali, Nepali and Filipino. Arabic and Urdu are displayed right-to-left.
+- Light and dark themes.
+- Works on phones, tablets and computers.
+
 ---
 
 ## Technology
 - **Vite and JavaScript**: browser-based application
-- **MapLibre GL and OpenStreetMap**: open-source mapping of donors, camps and volunteers
+- **MapLibre GL, OpenStreetMap and OpenFreeMap**: free, open-source mapping of donors, camps and volunteers
+- **Vercel**: hosting, with automatic updates from GitHub
 - **Browser storage with cross-window synchronisation**: live updates between open windows for demonstration purposes
 
 This project was built using an AI-assisted workflow. Used Claude to help generate some of the code, but I was the lead developer—handling the design, fixing the bugs, and putting the whole app together.
@@ -70,14 +83,16 @@ docs/                how the code works
 A full explanation is in [docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md).
 
 ## Demo Data
-All business names in the demo are fictional. Locations correspond to real areas in Abu Dhabi and Dubai. Payments are simulated, and no real transactions take place.
+All business names in the demo are fictional. Locations correspond to real areas in Abu Dhabi, Dubai and Sharjah. The demo includes 25 donors, 19 labour camps, 23 volunteers and 47 donations. Payments are simulated, and no real transactions take place.
 
 ## Running Locally
 ```bash
 npm install
 npm run dev
 ```
-Open http://localhost:5173 in a browser.
+Open http://localhost:5173 in a browser. Requires [Node.js](https://nodejs.org) 20 or newer.
+
+To build the version that goes online: `npm run build`
 
 ## Team
 - *(team member names)*
