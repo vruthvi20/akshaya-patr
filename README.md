@@ -4,7 +4,7 @@
 
 In the Mahabharata, the *Akshaya Patra* was a vessel that never ran out of food. Akshaya Patr applies that idea to a modern problem: ensuring that good food reaches people who need it instead of ending up in a landfill.
 
-Developed for the **"Fix It for the Future"** hackathon.
+Developed for the **"Fix It for the Future"** hackathon in Bright Riders School.
 
 **Live demo:** https://akshaya-patr.vercel.app
 
