@@ -99,7 +99,6 @@ To build the version that goes online: `npm run build`
 
 **Team members:**
 - Himani Varma
-- Rahil Afsal
 - Riyansh Varma
 
 ## License
