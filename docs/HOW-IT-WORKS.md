@@ -54,8 +54,8 @@ The empty page: top bar, three tabs, a panel on the left and the map on the righ
 | **Distance** | The *haversine formula* works out the distance between two points on a round Earth. |
 | **60 km limit** | Camps and volunteers only see food within 60 km. |
 | **Delivery price** | AED 10 + AED 2 per km. |
-| **Impact** | 1 portion ≈ 0.4 kg. 1 kg of wasted food ≈ 2.5 kg CO₂. |
-| **Water saved** | Growing food uses water: about 1,500 L per kg for rice and vegetables, and much more for meat (beef about 15,400 L/kg). A meat dish counts as about ⅓ meat. |
+| **Impact** | 1 portion ≈ 0.4 kg. Each kg of food saved avoids about 2.7 kg of CO₂ (the same average Too Good To Go uses). |
+| **Water saved** | Each kg of food saved also saves about 810 litres of water that was used to grow it (Too Good To Go's average). |
 
 ### `src/i18n/translations.js`: 10 languages
 - Every word on screen lives here, in English, Arabic, Hindi, Urdu, Malayalam, Tamil, Telugu, Bengali, Nepali and Filipino.
