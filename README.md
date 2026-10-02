@@ -85,15 +85,6 @@ A full explanation is in [docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md).
 ## Demo Data
 All business names in the demo are fictional. Locations correspond to real areas in Abu Dhabi, Dubai and Sharjah. The demo includes 25 donors, 19 labour camps, 23 volunteers and 47 donations. Payments are simulated, and no real transactions take place.
 
-## Running Locally
-```bash
-npm install
-npm run dev
-```
-Open http://localhost:5173 in a browser. Requires [Node.js](https://nodejs.org) 20 or newer.
-
-To build the version that goes online: `npm run build`
-
 ## Team
 **Team leader:** Ruthvika Vankadhara
 
